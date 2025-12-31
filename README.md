@@ -3,7 +3,7 @@
 ## **Postulación: Desarrollador Fullstack Senior**
 
 Este examen práctico evalúa tus habilidades en **arquitectura de
-microservicios**, **.NET 8/9**, **mensajería con RabbitMQ**, **cliente
+microservicios**, **.NET 8/9**, **mensajería con Servicio de Colas (RabbitMQ/Kafka/otro)**, **cliente
 web React**, **procesamiento asíncrono**, **implementación de
 colas**, **trazabilidad**, **persistencia en PostgreSQL o SQL Server**,
 **notificaciones por correo** y buenas prácticas de desarrollo.
@@ -18,9 +18,9 @@ entregado.
 
 # 🚀 **1. Objetivo del Reto**
 
-Implementar un sistema de microservicios donde un cliente web permita
+Implementar un sistema de microservicios donde un **cliente web/Colecciones Postman** que permita
 subir un archivo Excel con información masiva, este archivo se procese
-de manera asíncrona mediante colas RabbitMQ y finalmente se envíe una
+de manera asíncrona mediante Servicio de Colas (RabbitMQ/Kafka/otro) y finalmente se envíe una
 notificación por correo al usuario una vez que la carga haya finalizado.
 
 El reto debe ser **100% funcional**, **dockerizado** y siguiendo buenas
@@ -32,8 +32,8 @@ prácticas **senior**.
 
 La solución completa consiste en:
 
-### ✔️ **1. Cliente Web React**
-
+### ✔️ **1. Cliente Web React (Opcional pero valorado)** 
+**En caso no se realice la interfaz con React se deben enviar las colecciones postman con cada petición**
 Permite: 
 - Iniciar Sesión
 - Subir un archivo Excel (.xlsx).
@@ -77,7 +77,7 @@ Funciones:
 - Recibe desde el Gateway la solicitud para cargar el archivo.
 - Validar que archivo tenga no exceda el tamaño maximo configurado.
 - Guarda trazabilidad del archivo (estado inicial: **Pendiente**).  
-- Publica un mensaje en RabbitMQ para que el archivo sea procesado.  
+- Publica un mensaje en Servicio de Colas (RabbitMQ/Kafka/otro) para que el archivo sea procesado.  
 - Envía el archivo al servicio de almacenamiento SeaweedFS.
 
 ---
@@ -86,7 +86,7 @@ Funciones:
 
 Responsabilidades:
 
-- Escucha la cola RabbitMQ.  
+- Escucha la cola Servicio de Colas (RabbitMQ/Kafka/otro).  
 - Descarga el archivo desde SeaweedFS.  
 - Procesa el registro.
 - Realiza validaciones y limpieza de datos del Excel.
@@ -95,7 +95,7 @@ Responsabilidades:
   - **En proceso**  
   - **Cargado**  
   - **Finalizado**  
-- Publica una notificación en una segunda cola RabbitMQ indicando que el proceso ha terminado.
+- Publica una notificación en una segunda cola Servicio de Colas (RabbitMQ/Kafka/otro) indicando que el proceso ha terminado.
 
 ---
 
@@ -108,7 +108,7 @@ Responsabilidades:
 
 ---
 
-### ✔️ **7. RabbitMQ**
+### ✔️ **7. Servicio de Colas (RabbitMQ/Kafka/otro)**
 
 - Cola 1: `carga_masiva`  
 - Cola 2: `notificaciones`
@@ -163,7 +163,7 @@ Flujo principal:
 - Guarda un registro en PostgreSQL o SQL Server con estado inicial:  
   - `Pendiente`
 - Sube el archivo a **SeaweedFS**.
-- Publica en RabbitMQ el mensaje:
+- Publica en Servicio de Colas (RabbitMQ/Kafka/otro) el mensaje:
 
 ```json
 {
@@ -248,18 +248,19 @@ Flujo principal:
 -   Dockerfile propio para cada microservicio (Opcional pero valorado)
 -   docker-compose general orquestando (Opcional pero valorado):
     -   todos los microservicios
-    -   rabbitmq
+    -   Servicio de Colas (RabbitMQ/Kafka/otro)
     -   seaweedfs
     -   postgres o sqlserver
     -   gateway
 - **Implementar Patrón Rate Limiting**
+- Uso de Dapper ó EntityFramework
 - Implementar Patrón Circuit Breaker (Opcional pero valorado)
 - Implementar Patrones de Reintentos (Opcional pero valorado):
-- Uso de Dapper y EntityFramework (Opcional pero valorado):
+
 
 ------------------------------------------------------------------------
 
-## **Frontend**
+## **Frontend (Opcional)**
 
 -   React 16+
 -   Uso de componentes
@@ -281,7 +282,7 @@ Flujo principal:
 
 ## **Mensajería**
 
-RabbitMQ: 
+Servicio de Colas (RabbitMQ/Kafka/otro): 
 - Intercambio directo o topic
 - Mínimo 2 colas
 
@@ -340,8 +341,10 @@ CREATE TABLE CargaArchivo (
 -   docker-compose funcional
 -   Servicios se levantan sin errores (opcional)
 
-### **4. Frontend (20%)**
-
+### **4. Frontend o Colecciones POSTMAN (20%)**
+**Opción 1**
+-   Colecciones Postman de cada endpoint
+**Opción 2**
 -   Interfaz limpia y funcional
 -   Manejo correcto de estados
 -   UX básica pero consistente
@@ -360,7 +363,7 @@ El postulante debe entregar un repositorio con:
 
 ### ✔️ Scripts de base de datos
 
-### ✔️ Postman collection (opcional pero valorado)
+### ✔️ Postman collection (opcional en caso no se realice frontend)
 
 ### ✔️ Video corto (máximo 5 minutos) mostrando flujo completo funcionando
 
