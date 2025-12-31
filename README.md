@@ -352,7 +352,7 @@ CREATE TABLE CargaArchivo (
 
 El postulante debe entregar un repositorio con:
 
-### ✔️ Código fuente completo
+### ✔️ Código fuente completo en repositorio GITHUB
 
 ### ✔️ Documentación en README
 
